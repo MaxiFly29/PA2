@@ -384,7 +384,41 @@ public:
 
 int main() {
 	RBTree bst;
-	vector<int> v;
+
+	while (true)
+	{
+		string command;
+		cin >> command;
+		if (command == "insert")
+		{
+			int key;
+			string val;
+			cin >> key >> val;
+			bst.insert(key, val);
+		}
+		else if (command == "search")
+		{
+			int key;
+			cin >> key;
+			auto res = bst.searchTree(key);
+			if (res)
+			{
+				cout << *res << endl;
+			}
+			else
+			{
+				cout << "Couldn't find key in the tree" << endl;
+			}
+		}
+		else if (command == "delete")
+		{
+			int key;
+			cin >> key;
+			bst.deleteNode(key);
+		}
+	}
+
+	/*vector<int> v;
 	for (int i = 0; i < 10000; i++)
 	{
 		v.push_back(rand());
@@ -398,6 +432,6 @@ int main() {
 		bst.searchTree(v[rand() % v.size()], &logger);
 		cmp_cnt += logger.cnt();
 		cout << i + 1 << '\t' << logger.cnt() << '\n';
-	}
+	}*/
 	return 0;
 }
