@@ -5,6 +5,7 @@
 #include <iostream>
 #include <optional>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -309,6 +310,15 @@ private:
 		return node;
 	}
 
+	void _outputTree(NodePtr node_ptr, ostream& out)
+	{
+		if (!node_ptr || node_ptr == TNULL)
+			return;
+		_outputTree(node_ptr->left, out);
+		out << node_ptr->key << ' ' << node_ptr->data << '\n';
+		_outputTree(node_ptr->right, out);
+	}
+
 public:
 	RBTree() {
 		TNULL = new Node;
@@ -380,6 +390,11 @@ public:
 	void deleteNode(int data) {
 		deleteNodeHelper(this->root, data);
 	}
+
+	void outputTree(ostream& out)
+	{
+		_outputTree(root, out);
+	}
 };
 
 int main() {
@@ -415,6 +430,26 @@ int main() {
 			int key;
 			cin >> key;
 			bst.deleteNode(key);
+		}
+		else if (command == "save")
+		{
+			string fname;
+			cin >> fname;
+			ofstream out(fname);
+			bst.outputTree(out);
+		}
+		else if (command == "load")
+		{
+			string fname;
+			cin >> fname;
+			ifstream in(fname);
+			while (!in.eof())
+			{
+				int key;
+				string val;
+				in >> key >> val;
+				bst.insert(key, val);
+			}
 		}
 	}
 
